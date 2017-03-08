@@ -1,0 +1,14 @@
+.container
+  %h1 Feed Reader
+  - @feeds.each do |feed|
+    %h2 #{feed.channel.title}
+    - feed.items.each do |item|
+      .feed-link.well
+        .row
+          %a{ href: url("/url/#{CGI.escape(Base64.encode64(item.link))}") }
+            .col-sm-9
+              = item.title
+            .col-sm-offset-1.col-sm-2
+              = item.pubDate.strftime('%d/%m/%Y %H:%M')
+        .row
+          .content.col-sm-12
