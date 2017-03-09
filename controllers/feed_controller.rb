@@ -1,12 +1,4 @@
-require 'sinatra/base'
-require 'open-uri'
-require 'base64'
-
-class RSSReader < Sinatra::Base
-
-  set :haml, format: :html5, provides: :html5
-  set :public_folder, File.dirname(__FILE__) + '/public'
-
+class FeedController < ApplicationController
   get '/' do
     require 'rss'
 
@@ -30,6 +22,7 @@ class RSSReader < Sinatra::Base
 
     content = items.to_html
 
+    # Make it a helper
     video   = /<!--dle_video_begin:(.*?)-->/.match(content)
     return erb Nokogiri::HTML::Builder.new { |doc|
       image = /image:\s*?\"(.*?)\"/.match(content)
@@ -43,9 +36,6 @@ class RSSReader < Sinatra::Base
     content = content.gsub(/<!--/, '')
     content = content.gsub(/-->/, '')
 
-    erb content, layout: false
+    erb content, layout: !request.xhr?
   end
-
-  run! if app_file == $0
 end
-
