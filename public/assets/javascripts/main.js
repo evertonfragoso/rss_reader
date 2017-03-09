@@ -11,7 +11,7 @@ $('.feed-link').find('a').click(function(){
         .done(function(data){ contentDiv.addClass('open loaded').html(data); })
         .fail(function(error){ contentDiv.text(error); });
     }
-    contentDiv.show();
+    contentDiv.slideDown('fast');
   }
   return false;
 });
