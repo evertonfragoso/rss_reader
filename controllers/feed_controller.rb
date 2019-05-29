@@ -12,15 +12,11 @@ class FeedController < ApplicationController
   end
 
   get '/:feed/:url' do
-    require 'open-uri'
-
     url   = Base64.decode64(CGI.unescape(params[:url]))
     uri   = URI.parse(url)
-    html  = Nokogiri::HTML(open(url))
-    puts html
-    puts url
+    html  = Nokogiri::HTML(uri.read)
 
-    items = html.at_css('.newsarea') if uri =~ /acidcow/
+    items = html.at_css('.newsarea') if url =~ /acidcow/
 
     return erb 'No items!', layout: false if items.nil?
 
