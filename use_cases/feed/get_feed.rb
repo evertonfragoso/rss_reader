@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rss'
-
 module Feed
   # GetFeedError class
   class GetFeedError < StandardError; end

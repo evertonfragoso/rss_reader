@@ -7,7 +7,6 @@ require 'base64'
 # Application Controller
 class ApplicationController < Sinatra::Base
   helpers ApplicationHelpers
-  helpers FeedHelpers
 
   set :root_folder, File.expand_path('../', __dir__)
   set :views, File.expand_path('../views', __dir__)
