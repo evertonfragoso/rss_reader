@@ -1,0 +1,65 @@
+ # The behavior of RuboCop can be controlled via the .rubocop.yml
+ # configuration file. It makes it possible to enable/disable
+ # certain cops (checks) and to alter their behavior if they accept
+ # any parameters. The file can be placed either in your home
+ # directory or in some project directory.
+ #
+ # RuboCop will start looking for the configuration file in the directory
+ # where the inspected file is and continue its way up to the root directory.
+ #
+ # See https://github.com/rubocop-hq/rubocop/blob/master/manual/configuration.md
+
+AllCops:
+  TargetRubyVersion: 2.6
+  Exclude:
+    # Exclude 100% auto-generated files, which we can't easily control:
+    - 'bin/*'
+    - 'db/schema.rb'
+    # Exclude directories that will not include Ruby code we care about:
+    - 'coverage/**/*'
+    - 'log/**/*'
+    - 'node_modules/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'tags'
+
+Rails:
+  # Don't run Rails-specific cops for repository that doesn't use Rails
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    # Specs and Rake files are actually excluded in the default rules, but this
+    # is ignored when run in some contexts (e.g. SublimeLinter), so we re-
+    # iterate the exclusions here:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*'
+    # Routes and environment configuration files can have many lines in their
+    # blocks, and this is acceptable:
+    - 'config/routes.rb'
+    - 'config/environments/*.rb'
+
+Metrics/LineLength:
+  Max: 80
+
+Style/NumericLiterals:
+  # Having underscores in number literals makes them difficult to search for.
+  Enabled: false
+
+Style/NumericPredicate:
+  # This rule insists on converting `> 0` to `.positive?` but this often doesn't
+  # read correctly in the context it is being suggested. It is also slower to
+  # use the predicate method than to do the comparison (see https://github.com/bbatsov/rubocop/issues/3633).
+  #
+  # Disabling so that the appropriate usage can be determined by the author:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  # Leaving off the last comma means 2 lines change when a new element is added, making diffs less useful.
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  # Leaving off the last comma means 2 lines change when a new element is added, making diffs less useful.
+  EnforcedStyleForMultiline: comma

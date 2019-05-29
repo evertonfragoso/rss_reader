@@ -13,40 +13,75 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
+    ast (2.4.0)
+    backports (3.15.0)
     concurrent-ruby (1.1.5)
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
+    httparty (0.17.0)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.2)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2019.0331)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
+    multi_json (1.13.1)
+    multi_xml (0.6.0)
     mustermann (1.0.3)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
+    parallel (1.17.0)
+    parser (2.6.3.0)
+      ast (~> 2.4.0)
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
+    rainbow (3.0.0)
+    rubocop (0.70.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.6)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    ruby-progressbar (1.10.1)
     sinatra (2.0.5)
       mustermann (~> 1.0)
       rack (~> 2.0)
       rack-protection (= 2.0.5)
       tilt (~> 2.0)
+    sinatra-contrib (2.0.5)
+      backports (>= 2.8.2)
+      multi_json
+      mustermann (~> 1.0)
+      rack-protection (= 2.0.5)
+      sinatra (= 2.0.5)
+      tilt (>= 1.3, < 3)
     sqlite3 (1.4.1)
     temple (0.8.1)
     thread_safe (0.3.6)
     tilt (2.0.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    unicode-display_width (1.6.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activerecord
+  activesupport
   haml
+  httparty
   nokogiri
+  rubocop
   sinatra
+  sinatra-contrib
   sqlite3
 
 BUNDLED WITH
