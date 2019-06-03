@@ -1,41 +1,22 @@
+# frozen_string_literal: true
+
+# Feeds Controller
 class FeedController < ApplicationController
   get '/' do
-    require 'rss'
-
-    @feeds = []
-    [
-      'http://feeds.feedburner.com/acidcow_com?format=xml'
-    ].each do |url|
-      open(url) { |rss| @feeds << RSS::Parser.parse(rss) }
-    end
-
-    haml :index
+    haml :index, locals: { feeds: [:acidcow] }
   end
 
-  get '/url/:url' do
-    uri   = Base64.decode64(CGI.unescape(params[:url]))
-    html  = Nokogiri::HTML(open(uri))
+  get '/:feed' do
+    get_feed = Feed::GetFeed.perform(feed_name: params[:feed])
+    haml :feed, locals: { feed: get_feed.feed }
+  end
 
-    items = html.at_css('.newsarea') if /acidcow/.match(uri)
-
+  get '/:feed/:url' do
+    get_feed = Feed::GetFeedItem.perform(feed_name: params[:feed],
+                                         url: params[:url])
+    items = get_feed.feed_item
     return erb 'No items!', layout: false if items.nil?
 
-    content = items.to_html
-
-    # Make it a helper
-    video   = /<!--dle_video_begin:(.*?)-->/.match(content)
-    return erb Nokogiri::HTML::Builder.new { |doc|
-      image = /image:\s*?\"(.*?)\"/.match(content)
-      doc.a(href: video[1], target: '_blank') { doc.img(src: image[1]) }
-    }.to_html, layout: false if video
-
-    content = content.gsub(/<iframe.*?<\/iframe>/m, '')
-    content = content.gsub(/<script.*?<\/script>/m, '')
-    content = content.gsub(/<[div|span]+\s?[^>]*?\s+class=[\"|']+[tools|socnetwork|fb\-like|sorting|advpost]+[\"|']+\s?[^>]*?>.*?<\/[div|span]+>/m, '')
-    content = content.gsub(/<!--.*?-->/m, '')
-    content = content.gsub(/<!--/, '')
-    content = content.gsub(/-->/, '')
-
-    erb content, layout: !request.xhr?
+    erb items, layout: !request.xhr?
   end
 end
