@@ -39,8 +39,13 @@ GEM
     parser (2.6.3.0)
       ast (~> 2.4.0)
     rack (2.0.7)
+    rack-console (1.3.1)
+      rack (>= 1.1)
+      rack-test
     rack-protection (2.0.5)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rainbow (3.0.0)
     rubocop (0.70.0)
       jaro_winkler (~> 1.5.1)
@@ -79,6 +84,7 @@ DEPENDENCIES
   haml
   httparty
   nokogiri
+  rack-console
   rubocop
   sinatra
   sinatra-contrib
